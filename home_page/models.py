@@ -45,19 +45,51 @@ class Project(models.Model):
         verbose_name_plural = "Projetos"
 
 
-class Testimonial(models.Model):
-    quote = models.TextField(verbose_name="Citação", blank=True, null=True)
-    source_name = models.CharField(max_length=100, verbose_name="Nome da Fonte", blank=True, null=True)
-    source_info = models.CharField(max_length=200, verbose_name="Informação da Fonte", blank=True, null=True)
-    icon_class = models.CharField(max_length=50, verbose_name="Classe do Ícone (FontAwesome)", blank=True, null=True)
-    project_url = models.URLField(verbose_name="Link do Projeto", blank=True, null=True)
+class Icone(models.Model):
+    nome = models.CharField(
+        max_length=50,
+        unique=True,
+        help_text="Nome do ícone do Font Awesome (ex: fab fa-python)"
+    )
+    tamanho = models.CharField(
+        max_length=10,
+        blank=True,
+        null=True,
+        help_text="Tamanho do ícone (ex: fa-3x)"
+    )
 
     def __str__(self):
-        return self.source_name
+        return f"{self.nome} {self.tamanho}" if self.tamanho else self.nome
 
-    class Meta:
-        verbose_name = "Depoimento"
-        verbose_name_plural = "Depoimentos"
+
+class Testimonial(models.Model):
+    icone = models.ForeignKey(
+        Icone,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        help_text="Ícone associado ao depoimento"
+    )
+    name = models.CharField(
+        max_length=100,
+        help_text="Nome do projeto ou título do depoimento"
+    )
+    description = models.TextField(
+        help_text="Descrição detalhada do projeto ou depoimento"
+    )
+    technologies = models.CharField(
+        max_length=200,
+        help_text="Tecnologias usadas (ex: Python, PyAutoGUI, PyQT, Pandas)"
+    )
+    project_link = models.URLField(
+        max_length=200,
+        blank=True,
+        null=True,
+        help_text="Link para o projeto (ex: GitHub)"
+    )
+
+    def __str__(self):
+        return self.name
 
 
 class StyleConfig(models.Model):

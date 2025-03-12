@@ -2,42 +2,43 @@
 
 {% load static %}
 
-
 {% block content %}
 	<div class="main-wrapper">
 
+		<!-- Seção "Sobre Mim" -->
 		<section class="about-me-section p-3 p-lg-5 theme-bg-light">
 			<div class="container">
 				<div class="profile-teaser media flex-column flex-lg-row">
 					<div class="media-body">
-						<h2 class="name font-weight-bold mb-1">{{ sobre_mim.name }}</h2>
-						<div class="tagline mb-3">{{ sobre_mim.tagline }}</div>
-						<div class="bio mb-4">{{ sobre_mim.bio }}</div>
+						<h2 class="name font-weight-bold mb-1">{{ predefinicao.sobre_mim.name }}</h2>
+						<div class="tagline mb-3">{{ predefinicao.sobre_mim.tagline }}</div>
+						<div class="bio mb-4">{{ predefinicao.sobre_mim.bio }}</div>
 						<div class="mb-4">
-							<a class="btn btn-primary mr-2 mb-3" target="_blank" href="{{ sobre_mim.github_url }}">
+							<a class="btn btn-primary mr-2 mb-3" target="_blank" href="{{ predefinicao.sobre_mim.github_url }}">
 								<i class="fas fa-arrow-alt-circle-right mr-2"></i>
 								<span class="d-none d-md-inline">View</span> Portfolio
 							</a>
-							<a class="btn btn-secondary mb-3" href="{{ sobre_mim.resume_url }}">
+							<a class="btn btn-secondary mb-3" href="{{ predefinicao.sobre_mim.resume_url }}">
 								<i class="fas fa-file-alt mr-2"></i>
 								<span class="d-none d-md-inline">View</span> Currículo
 							</a>
 						</div>
 					</div><!--//media-body-->
-					<img width="600px" height="300" class="profile-image mb-3 mb-lg-0 ml-lg-5 mr-md-0" src="{{ sobre_mim.profile_image.url }}" alt="">
+					<img width="600px" height="300" class="profile-image mb-3 mb-lg-0 ml-lg-5 mr-md-0" src="{{ predefinicao.sobre_mim.profile_image.url }}" alt="">
 				</div>
 			</div>
 		</section><!--//about-me-section-->
 
+		<!-- Seção "Habilidades" -->
 		<section class="overview-section p-3 p-lg-5">
 			<div class="container">
 				<h2 class="section-title font-weight-bold mb-3">Sobre mim</h2>
 				<div class="section-intro mb-5">
 					Tenho mais de 5 anos de experiência em estudo e desenvolvimento de softwares. Abaixo está uma rápida visão geral dos meus principais conjuntos de habilidades técnicas e tecnologias que uso. Quer saber mais sobre minha experiência?
-					<a href="{% url 'resume' %}"> Currículo Online</a> e <a target="_blank" href="{{ sobre_mim.github_url }}">portfolio de projetos</a>.
+					<a href="{% url 'resume' %}"> Currículo Online</a> e <a target="_blank" href="{{ predefinicao.sobre_mim.github_url }}">portfolio de projetos</a>.
 				</div>
 				<div class="row">
-					{% for skill in habilidades %}
+					{% for skill in predefinicao.habilidades.all %}
 						<div class="item col-6 col-lg-3">
 							<div class="item-inner">
 								<div class="item-icon"><i class="{{ skill.icon_class }}"></i></div>
@@ -52,27 +53,33 @@
 
 		<div class="container"><hr></div>
 
+		<!-- Seção "Depoimentos" -->
 		<section class="testimonials-section p-3 p-lg-5">
 			<div class="container">
 				<h2 class="section-title font-weight-bold mb-5">Projetos </h2>
 				<div class="testiomonial-carousel-container">
 					<div class="testimonial-carousel tiny-slider">
-						{% for depoimento in depoimentos %}
+						{% for testimonial in predefinicao.depoimentos.all %}
 							<div class="item">
 								<div class="item-inner">
 									<div class="quote-holder">
-										<blockquote class="quote-content">{{ depoimento.quote }}</blockquote>
-										<a href="{{ depoimento.project_url }}" target="_blank">
+										<blockquote class="quote-content">
+											{{ testimonial.description }}
+										</blockquote>
+										{% if testimonial.project_link %}
+										<a href="{{ testimonial.project_link }}" target="_blank">
 											<i class="fas fa-quote-left"></i>
 										</a>
+										{% endif %}
 									</div><!--//quote-holder-->
 									<div class="source-holder">
 										<div class="source-profile">
-											<i class="fab fa-python fa-3x"></i>
+											<!-- Exibe o ícone associado ao depoimento -->
+											<i class="{{ testimonial.icone.nome }} {{ testimonial.icone.tamanho }}"></i>
 										</div>
 										<div class="meta">
-											<div class="name">{{ depoimento.source_name }}</div>
-											<div class="info">{{ depoimento.source_info }}</div>
+											<div class="name">{{ testimonial.name }}</div>
+											<div class="info">{{ testimonial.technologies }}</div>
 										</div>
 									</div>
 								</div><!--//item-inner-->
@@ -85,21 +92,21 @@
 
 		<div class="container"><hr></div>
 
+		<!-- Seção "Projetos em Destaque" -->
 		<section class="featured-section p-3 p-lg-5">
 			<div class="container">
 				<h2 class="section-title font-weight-bold mb-5">Projetos em destaque</h2>
 				<div class="row">
-					{% for projeto in projetos %}
+					{% for projeto in predefinicao.projetos.all %}
 						<div class="col-md-6 mb-5">
 							<div class="card project-card">
 								<div class="row no-gutters">
 									<div class="col-lg-4 card-img-holder">
-
-										 {% if projeto.image %}
-                                    <img src="{{ projeto.image.url }}" class="card-img" alt="{{ projeto.title }}">
-                                {% else %}
-                                    <img src="{% static 'images/project/imagem_padrao.jpg' %}" class="card-img" alt="Imagem Padrão">
-                                {% endif %}
+										{% if projeto.image %}
+											<img src="{{ projeto.image.url }}" class="card-img" alt="{{ projeto.title }}">
+										{% else %}
+											<img src="{% static 'images/project/imagem_padrao.jpg' %}" class="card-img" alt="Imagem Padrão">
+										{% endif %}
 									</div>
 									<div class="col-lg-8">
 										<div class="card-body">
@@ -123,7 +130,7 @@
 					{% endfor %}
 				</div><!--//row-->
 				<div class="text-center py-3">
-					<a href="{{ sobre_mim.github_url }}" class="btn btn-primary">
+					<a href="{{ predefinicao.sobre_mim.github_url }}" class="btn btn-primary">
 						<i class="fas fa-arrow-alt-circle-right mr-2"></i>View Portfolio
 					</a>
 				</div>
