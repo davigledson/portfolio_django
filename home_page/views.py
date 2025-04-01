@@ -6,7 +6,11 @@ from django.shortcuts import render
 from .models import PredefinicaoGeral
 
 
-def index(request):
+def index(request): #sem banco de dados
+
+    return render(request, 'home_page/index.html')
+
+def home(request): #com banco de dados
     # Recupera a primeira predefinição (ou a desejada)
     predefinicao = PredefinicaoGeral.objects.first()
 
@@ -15,7 +19,7 @@ def index(request):
         'predefinicao': predefinicao
     }
 
-    return render(request, 'home_page/index.html', context)
+    return render(request, 'home_page/index_db.html', context)
 
 def resume(request):
 	return render(request, 'home_page/resume.html')
