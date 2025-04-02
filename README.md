@@ -1,6 +1,7 @@
 
 
-![git_port_leve](https://github.com/user-attachments/assets/16317435-eaab-4165-ba7e-f670d745a968)
+![Captura de tela 2025-04-01 213439](https://github.com/user-attachments/assets/f95b8b73-0cb7-4bbf-8933-1531de4f578d)
+
 
 para rodar o projeto
  venv\Scripts\activate  -ativa a maquina virtual
