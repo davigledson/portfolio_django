@@ -9,3 +9,4 @@ para rodar o projeto
 
 na hospedagem:
 pa_autoconfigure_django.py (link do repositorio) --nuke
+pa_autoconfigure_django.py https://github.com/davigledson/outro_portfolio.git
